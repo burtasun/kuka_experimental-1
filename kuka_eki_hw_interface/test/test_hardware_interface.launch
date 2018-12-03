@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <launch>
+    <!--<param name="robot_description" command="$(find xacro)/xacro.py '$(find lesson_urdf)/urdf/planar_3dof.urdf'"/>-->
+    <arg name="model" value="$(find urdf_ejes_ext)/urdf/robot_mesa.xacro"/>
+    <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
     <rosparam file="$(find kuka_eki_hw_interface)/test/test_params.yaml" command="load" />
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <!--<rosparam subst_value="true">
+        #Publish all joint states
+        joint_state_controller:
+          type: joint_state_controller/JointStateController
+          publish_rate: 50
+
+        # Joint trajectory controller
+        position_trajectory_controller:
+          type: "position_controllers/JointTrajectoryController"
+          joints:
+            - joint_a1
+            - joint_a2
+            - joint_a3
+            - joint_a4
+            - joint_a5
+            - joint_a6
+            - joint_e1
+            - joint_e2
+
+          state_publish_rate: 50 # Defaults to 50
+          action_monitor_rate: 20 # Defaults to 20
+    </rosparam>-->
+
+
+
+
+    <rosparam file="$(find kuka_eki_hw_interface)/config/hardware_controllers.yaml" command="load"/>
+    <!-- Load standard kuka controller joint names from YAML file to parameter server -->
+    <rosparam file="$(find kuka_eki_hw_interface)/config/controller_joint_names.yaml" command="load"/>
 
     <!-- Start EKI interface -->
     <node name="kuka_eki_hardware_interface" pkg="kuka_eki_hw_interface"
@@ -8,14 +41,11 @@
       output="screen"
       required="true"/>
 
-    <!-- Load joint controller configurations from YAML file to parameter server -->
-    <rosparam file="$(find kuka_eki_hw_interface)/config/hardware_controllers.yaml" command="load"/>
-    <!-- Load standard kuka controller joint names from YAML file to parameter server -->
-    <rosparam file="$(find kuka_eki_hw_interface)/config/controller_joint_names.yaml" command="load"/>
 
     <!-- Load controllers -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
         args="position_trajectory_controller joint_state_controller --shutdown-timeout 1"/>
     <!-- Load robot state publisher -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
 </launch>

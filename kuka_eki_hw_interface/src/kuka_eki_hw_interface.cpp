@@ -50,7 +50,6 @@ KukaEkiHardwareInterface::KukaEkiHardwareInterface() : joint_position_(n_dof_, 0
     joint_effort_(n_dof_, 0.0), joint_position_command_(n_dof_, 0.0), joint_names_(n_dof_), deadline_(ios_),
     eki_server_socket_(ios_, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0))
 {
-
 }
 
 
@@ -107,6 +106,20 @@ bool KukaEkiHardwareInterface::eki_read_state(std::vector<double> &joint_positio
   TiXmlDocument xml_in;
   in_buffer[len] = '\0';  // null-terminate data buffer for parsing (expects c-string)
   xml_in.Parse(in_buffer.data());
+
+  
+  /*TiXmlPrinter printer;
+  printer.SetIndent( "    " );
+  xml_in.Accept( &printer );
+  std::string xmltext = printer.CStr();
+  ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", "El buffer de entrada es: ");
+  ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", xmltext);
+  */
+
+
+
+
+
   TiXmlElement* robot_state = xml_in.FirstChildElement("RobotState");
   if (!robot_state)
     return false;
@@ -121,17 +134,34 @@ bool KukaEkiHardwareInterface::eki_read_state(std::vector<double> &joint_positio
   double joint_pos;  // [deg]
   double joint_vel;  // [%max]
   double joint_eff;  // [Nm]
-  char axis_name[] = "A1";
+  //char axis_name[] = "A1";  //ÑAPA TOTAL DE ROS
+  
+
+  std::string ValoresEjes = "\n\nLos valores de los ejes son: \n";
   for (int i = 0; i < n_dof_; ++i)
   {
-    pos->Attribute(axis_name, &joint_pos);
+    /*pos->Attribute(axis_name, &joint_pos);
     joint_position[i] = angles::from_degrees(joint_pos);  // convert deg to rad
     vel->Attribute(axis_name, &joint_vel);
     joint_velocity[i] = joint_vel;
     eff->Attribute(axis_name, &joint_eff);
+    joint_effort[i] = joint_eff;*/
+    //axis_name[1]++; //ÑAPA TOTAL DE ROS
+
+    pos->Attribute(NombreEjesKuka_[i], &joint_pos);
+    joint_position[i] = angles::from_degrees(joint_pos);  // convert deg to rad
+    vel->Attribute(NombreEjesKuka_[i], &joint_vel);
+    joint_velocity[i] = joint_vel;
+    eff->Attribute(NombreEjesKuka_[i], &joint_eff);
     joint_effort[i] = joint_eff;
-    axis_name[1]++;
+  
+    /*ValoresEjes += "    ";
+    ValoresEjes += NombreEjesKuka_[i];
+    ValoresEjes += " ";
+    ValoresEjes += std::to_string(joint_position[i]);*/
   }
+  //ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", ValoresEjes);
+
 
   // Extract number of command elements buffered on robot
   robot_command->Attribute("Size", &cmd_buff_len);
@@ -148,17 +178,27 @@ bool KukaEkiHardwareInterface::eki_write_command(const std::vector<double> &join
   TiXmlText* empty_text = new TiXmlText("");
   robot_command->LinkEndChild(pos);
   pos->LinkEndChild(empty_text);   // force <Pos></Pos> format (vs <Pos />)
-  char axis_name[] = "A1";
+  //char axis_name[] = "A1";//ÑAPA ROS
+  //ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", "Mandando valores para\n");
   for (int i = 0; i < n_dof_; ++i)
   {
-    pos->SetAttribute(axis_name, std::to_string(angles::to_degrees(joint_position_command[i])).c_str());
-    axis_name[1]++;
+    //ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", NombreEjesKuka_[i] << ": " << joint_position_command[i]);//DEBUG
+    pos->SetAttribute(NombreEjesKuka_[i], std::to_string(angles::to_degrees(joint_position_command[i])).c_str());
+    //axis_name[1]++; //ÑAPA ROS
   }
   xml_out.LinkEndChild(robot_command);
 
   TiXmlPrinter xml_printer;
   xml_printer.SetStreamPrinting();  // no linebreaks
   xml_out.Accept(&xml_printer);
+
+  TiXmlPrinter printerDebug;
+  printerDebug.SetIndent( "    " );
+  xml_out.Accept( &printerDebug );
+  std::string xmltext = printerDebug.CStr();
+  ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", "El buffer de salida  es: ");
+  ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", xmltext);
+  
 
   size_t len = eki_server_socket_.send_to(boost::asio::buffer(xml_printer.CStr(), xml_printer.Size()),
                                           eki_server_endpoint_);
@@ -221,6 +261,9 @@ void KukaEkiHardwareInterface::init()
   }
 
   // Create ros_control interfaces (joint state and position joint for all dof's)
+
+  n_dof_= 8;
+  ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", "El numero de grados de libertad es: " << n_dof_);
   for (std::size_t i = 0; i < n_dof_; ++i)
   {
     // Joint state interface

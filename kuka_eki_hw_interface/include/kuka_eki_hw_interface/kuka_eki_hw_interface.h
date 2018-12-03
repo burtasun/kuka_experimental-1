@@ -53,9 +53,12 @@ namespace kuka_eki_hw_interface
 class KukaEkiHardwareInterface : public hardware_interface::RobotHW
 {
 private:
+
+  const std::string NombreEjesKuka_[12]={"A1","A2","A3","A4","A5","A6","E1","E2","E3","E4","E5","E6"}; //Suple el iterador de ejes de read y write definido por AxisName
+
   ros::NodeHandle nh_;
 
-  const unsigned int n_dof_ = 6;
+  unsigned int n_dof_ = 8;
   std::vector<std::string> joint_names_;
   std::vector<double> joint_position_;
   std::vector<double> joint_velocity_;

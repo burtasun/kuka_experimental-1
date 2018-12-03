@@ -31,8 +31,16 @@
           continue with those).
 -->
 
-  <arg name="robot_ip" doc="IP of the EKI interface on the robot controller" />
-  <arg name="port" default="54600" doc="UDP port of the EKI interface on the robot controller" />
+<!--AÑADIDO-->
+
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find urdf_ejes_ext)/urdf/robot_mesa.urdf'"/>
+  
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  
+
+
+  <arg name="robot_ip" default="192.168.1.2" doc="IP of the EKI interface on the robot controller" />
+  <arg name="port" default="54605" doc="UDP port of the EKI interface on the robot controller" />
 
   <!-- name of the ros_control controllers (see below) -->
   <arg name="js_ctrlr" value="joint_state_controller" />
@@ -53,7 +61,10 @@
        this is typically loaded from the 'config/hardware_controller.yaml' file,
        but is recreated here to ensure a consistent configuration when using
        this convenience launch file -->
-  <rosparam subst_value="true">
+  
+  
+  <rosparam file="$(find kuka_eki_hw_interface)/config/hardware_controllers.yaml" command="load"/>
+  <!--<rosparam subst_value="true">
     $(arg js_ctrlr):
       type: joint_state_controller/JointStateController
       publish_rate: 50
@@ -70,13 +81,20 @@
         - joint_a4
         - joint_a5
         - joint_a6
+        - joint_e1
+        - joint_e2
 
       state_publish_rate: 50 # Defaults to 50
       action_monitor_rate: 20 # Defaults to 20
-  </rosparam>
+  </rosparam>-->
+  <rosparam file="$(find kuka_eki_hw_interface)/config/controller_joint_names.yaml" command="load"/>
+  <!--<rosparam  subst_value="true">
+    controller_joint_names: ["joint_a1", "joint_a2", "joint_a3", "joint_a4", "joint_a5", "joint_a6", "joint_e1", "joint_e2"]
+  </rosparam>-->
+
 
   <!-- main 'driver node': the EKI hardware interface -->
-  <node name="kuka_eki_hw_interface" pkg="kuka_eki_hw_interface" type="kuka_eki_hw_interface_node" respawn="false">
+  <node name="kuka_eki_hw_interface" pkg="kuka_eki_hw_interface" type="kuka_eki_hw_interface_node" respawn="false" output="screen" required="true">
     <!-- remap topics to conform to ROS-I specifications -->
     <remap from="$(arg pos_ctrlr_name)/follow_joint_trajectory" to="joint_trajectory_action" />
     <remap from="$(arg pos_ctrlr_name)/state" to="feedback_states" />

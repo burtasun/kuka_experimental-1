@@ -1,5 +1,7 @@
-&ACCESS RVO
-def  kuka_eki_hw_interface()
+&ACCESS RVP
+&REL 25
+&PARAM DISKPATH = Program
+DEF kuka_eki_hw_int_eje_ext()
 
    ; Software License Agreement (BSD License)
    ;
@@ -34,7 +36,9 @@ def  kuka_eki_hw_interface()
 
 
    ; Declarations
-   decl axis joint_pos_tgt
+   ;decl axis joint_pos_tgt
+   decl e6axis joint_pos_tgt ;modificado para ejes externos
+
    decl int elements_read
 
    ; INI
@@ -63,6 +67,13 @@ def  kuka_eki_hw_interface()
 
    ; BCO (Block COincidence) run to current position
    ; (requied for below loop continue before first incoming command)
+;FOLD PTP P3 Vel=100 % PDAT3 Tool[1] Base[0];%{PE}%R 8.3.44,%MKUKATPBASIS,%CMOVE,%VPTP,%P 1:PTP, 2:P3, 3:, 5:100, 7:PDAT3
+$BWDSTART=FALSE
+PDAT_ACT=PPDAT3
+FDAT_ACT=FP3
+BAS(#PTP_PARAMS,100)
+PTP XP3 
+;ENDFOLD
    joint_pos_tgt = $axis_act_meas
    ptp joint_pos_tgt
 
@@ -113,8 +124,11 @@ def eki_hw_iface_send()
       eki_ret = eki_setreal("EkiHwInterface", "RobotState/Pos/@A4", $axis_act_meas.a4)
       eki_ret = eki_setreal("EkiHwInterface", "RobotState/Pos/@A5", $axis_act_meas.a5)
       eki_ret = eki_setreal("EkiHwInterface", "RobotState/Pos/@A6", $axis_act_meas.a6)
+;ejes externos extra
+      eki_ret = eki_setreal("EkiHwInterface", "RobotState/Pos/@E1", $axis_act_meas.e1)
+      eki_ret = eki_setreal("EkiHwInterface", "RobotState/Pos/@E2", $axis_act_meas.e2)
       ; velocity
-      ;eki_ret = eki_setreal("EkiHwInterface", "RobotState/Vel/@A1", $vel_axis_act[1] * $vel_axis_ma[1] / 100.0)
+      eki_ret = eki_setreal("EkiHwInterface", "RobotState/Vel/@A1", $vel_axis_act[1] * $vel_axis_ma[1] / 100.0)
       ;eki_ret = eki_setreal("EkiHwInterface", "RobotState/Vel/@A2", $vel_axis_act[2] * $vel_axis_ma[2] / 100.0)
       ;eki_ret = eki_setreal("EkiHwInterface", "RobotState/Vel/@A3", $vel_axis_act[3] * $vel_axis_ma[3] / 100.0)
       ;eki_ret = eki_setreal("EkiHwInterface", "RobotState/Vel/@A4", $vel_axis_act[4] * $vel_axis_ma[4] / 100.0)
@@ -161,7 +175,7 @@ endfct
 ; Returns number of elements read.
 deffct int eki_hw_iface_get(joint_pos_cmd :out)
    decl eki_status eki_ret
-   decl axis joint_pos_cmd
+   decl e6axis joint_pos_cmd
 
    if not $flag[1] then
       return 0
@@ -178,6 +192,8 @@ deffct int eki_hw_iface_get(joint_pos_cmd :out)
    eki_ret = eki_getreal("EkiHwInterface", "RobotCommand/Pos/@A4", joint_pos_cmd.a4)
    eki_ret = eki_getreal("EkiHwInterface", "RobotCommand/Pos/@A5", joint_pos_cmd.a5)
    eki_ret = eki_getreal("EkiHwInterface", "RobotCommand/Pos/@A6", joint_pos_cmd.a6)
+   eki_ret = eki_getreal("EkiHwInterface", "RobotCommand/Pos/@E1", joint_pos_cmd.e1)
+   eki_ret = eki_getreal("EkiHwInterface", "RobotCommand/Pos/@E2", joint_pos_cmd.e2)
    return 1
 endfct
 
