@@ -10,18 +10,18 @@
       <Input InIdx="6" OutObjID="ETHERNET1" OutIdx="6" />
     </Inputs>
     <Parameters>
-      <Parameter Name="LowerLimA1" ParamID="1" ParamValue="-90.0" />
-      <Parameter Name="LowerLimA2" ParamID="2" ParamValue="-90.0" />
-      <Parameter Name="LowerLimA3" ParamID="3" ParamValue="-90.0" />
-      <Parameter Name="LowerLimA4" ParamID="4" ParamValue="-90.0" />
-      <Parameter Name="LowerLimA5" ParamID="5" ParamValue="-90.0" />
-      <Parameter Name="LowerLimA6" ParamID="6" ParamValue="-90.0" />
-      <Parameter Name="UpperLimA1" ParamID="13" ParamValue="90.0" />
-      <Parameter Name="UpperLimA2" ParamID="14" ParamValue="90.0" />
-      <Parameter Name="UpperLimA3" ParamID="15" ParamValue="90.0" />
-      <Parameter Name="UpperLimA4" ParamID="16" ParamValue="90.0" />
-      <Parameter Name="UpperLimA5" ParamID="17" ParamValue="90.0" />
-      <Parameter Name="UpperLimA6" ParamID="18" ParamValue="90.0" />
+      <Parameter Name="LowerLimA1" ParamID="1" ParamValue="-185" />
+      <Parameter Name="LowerLimA2" ParamID="2" ParamValue="-135" />
+      <Parameter Name="LowerLimA3" ParamID="3" ParamValue="-120" />
+      <Parameter Name="LowerLimA4" ParamID="4" ParamValue="-350" />
+      <Parameter Name="LowerLimA5" ParamID="5" ParamValue="-119" />
+      <Parameter Name="LowerLimA6" ParamID="6" ParamValue="-350" />
+      <Parameter Name="UpperLimA1" ParamID="13" ParamValue="185" />
+      <Parameter Name="UpperLimA2" ParamID="14" ParamValue="35" />
+      <Parameter Name="UpperLimA3" ParamID="15" ParamValue="158" />
+      <Parameter Name="UpperLimA4" ParamID="16" ParamValue="350" />
+      <Parameter Name="UpperLimA5" ParamID="17" ParamValue="119" />
+      <Parameter Name="UpperLimA6" ParamID="18" ParamValue="350" />
     </Parameters>
   </RSIObject>
   <RSIObject ObjType="ETHERNET" ObjTypeID="64" ObjID="ETHERNET1">
@@ -46,6 +46,30 @@
       <Parameter Name="MaxE4" ParamID="10" ParamValue="6.0" />
       <Parameter Name="MaxE5" ParamID="11" ParamValue="6.0" />
       <Parameter Name="MaxE6" ParamID="12" ParamValue="6.0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="AXISCORREXT" ObjTypeID="33" ObjID="AXISCORREXT1">
+    <Inputs>
+      <Input InIdx="7" OutObjID="ETHERNET1" OutIdx="7" />
+      <Input InIdx="8" OutObjID="ETHERNET1" OutIdx="8" />
+      <Input InIdx="9" OutObjID="ETHERNET1" OutIdx="9" />
+      <Input InIdx="10" OutObjID="ETHERNET1" OutIdx="10" />
+      <Input InIdx="11" OutObjID="ETHERNET1" OutIdx="11" />
+      <Input InIdx="12" OutObjID="ETHERNET1" OutIdx="12" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="LowerLimE1" ParamID="7" ParamValue="-60" />
+      <Parameter Name="LowerLimE2" ParamID="8" ParamValue="-360" />
+      <Parameter Name="LowerLimE3" ParamID="9" ParamValue="-5" />
+      <Parameter Name="LowerLimE4" ParamID="10" ParamValue="-5" />
+      <Parameter Name="LowerLimE5" ParamID="11" ParamValue="-5" />
+      <Parameter Name="LowerLimE6" ParamID="12" ParamValue="-5" />
+      <Parameter Name="UpperLimE1" ParamID="19" ParamValue="+60" />
+      <Parameter Name="UpperLimE2" ParamID="20" ParamValue="360" />
+      <Parameter Name="UpperLimE3" ParamID="21" ParamValue="5" />
+      <Parameter Name="UpperLimE4" ParamID="22" ParamValue="5" />
+      <Parameter Name="UpperLimE5" ParamID="23" ParamValue="5" />
+      <Parameter Name="UpperLimE6" ParamID="24" ParamValue="5" />
     </Parameters>
   </RSIObject>
 </RSIObjects>

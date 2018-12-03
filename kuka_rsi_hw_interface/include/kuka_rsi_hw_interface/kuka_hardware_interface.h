@@ -80,7 +80,7 @@ private:
   // ROS node handle
   ros::NodeHandle nh_;
 
-  unsigned int n_dof_;
+  unsigned int n_dof_ = 8;
 
   std::vector<std::string> joint_names_;
 

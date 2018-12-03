@@ -46,9 +46,9 @@ namespace kuka_rsi_hw_interface
 {
 
 KukaHardwareInterface::KukaHardwareInterface() :
-    joint_position_(6, 0.0), joint_velocity_(6, 0.0), joint_effort_(6, 0.0), joint_position_command_(6, 0.0), joint_velocity_command_(
-        6, 0.0), joint_effort_command_(6, 0.0), joint_names_(6), rsi_initial_joint_positions_(6, 0.0), rsi_joint_position_corrections_(
-        6, 0.0), ipoc_(0), n_dof_(6)
+    joint_position_(n_dof_, 0.0), joint_velocity_(n_dof_, 0.0), joint_effort_(n_dof_, 0.0), joint_position_command_(n_dof_, 0.0), joint_velocity_command_(
+        n_dof_, 0.0), joint_effort_command_(n_dof_, 0.0), joint_names_(n_dof_), rsi_initial_joint_positions_(n_dof_, 0.0), rsi_joint_position_corrections_(
+        n_dof_, 0.0), ipoc_(0)
 {
   in_buffer_.resize(1024);
   out_buffer_.resize(1024);
@@ -97,13 +97,14 @@ bool KukaHardwareInterface::read(const ros::Time time, const ros::Duration perio
   {
     return false;
   }
+  ROS_INFO_STREAM_NAMED("hardware_interface", "\n\nBUFFER RECEPCION:\n" << in_buffer_);
 
   if (rt_rsi_pub_->trylock()){
     rt_rsi_pub_->msg_.data = in_buffer_;
     rt_rsi_pub_->unlockAndPublish();
   }
 
-  rsi_state_ = RSIState(in_buffer_);
+  rsi_state_ = RSIState(in_buffer_, n_dof_);
   for (std::size_t i = 0; i < n_dof_; ++i)
   {
     joint_position_[i] = DEG2RAD * rsi_state_.positions[i];
@@ -122,7 +123,8 @@ bool KukaHardwareInterface::write(const ros::Time time, const ros::Duration peri
     rsi_joint_position_corrections_[i] = (RAD2DEG * joint_position_command_[i]) - rsi_initial_joint_positions_[i];
   }
 
-  out_buffer_ = RSICommand(rsi_joint_position_corrections_, ipoc_).xml_doc;
+  out_buffer_ = RSICommand(rsi_joint_position_corrections_, ipoc_, n_dof_).xml_doc;
+  ROS_INFO_STREAM_NAMED("hardware_interface", "\n\nBUFFER ENVIO:\n" << out_buffer_);
   server_->send(out_buffer_);
 
   return true;
@@ -143,7 +145,7 @@ void KukaHardwareInterface::start()
     bytes = server_->recv(in_buffer_);
   }
 
-  rsi_state_ = RSIState(in_buffer_);
+  rsi_state_ = RSIState(in_buffer_,n_dof_);
   for (std::size_t i = 0; i < n_dof_; ++i)
   {
     joint_position_[i] = DEG2RAD * rsi_state_.positions[i];
@@ -151,7 +153,7 @@ void KukaHardwareInterface::start()
     rsi_initial_joint_positions_[i] = rsi_state_.initial_positions[i];
   }
   ipoc_ = rsi_state_.ipoc;
-  out_buffer_ = RSICommand(rsi_joint_position_corrections_, ipoc_).xml_doc;
+  out_buffer_ = RSICommand(rsi_joint_position_corrections_, ipoc_, n_dof_).xml_doc;
   server_->send(out_buffer_);
   // Set receive timeout to 1 second
   server_->set_timeout(1000);

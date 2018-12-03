@@ -61,7 +61,7 @@ public:
     xml_doc_.resize(1024);
   }
 
-  RSIState(std::string xml_doc);
+  RSIState(std::string xml_doc, int n_dof);
   // AIPOS
   std::vector<double> positions;
   // ASPos
@@ -75,12 +75,12 @@ public:
 
 };
 
-RSIState::RSIState(std::string xml_doc) :
+RSIState::RSIState(std::string xml_doc, int n_dof) :
   xml_doc_(xml_doc),
-  positions(6, 0.0),
-  initial_positions(6, 0.0),
-  cart_position(6, 0.0),
-  initial_cart_position(6, 0.0)
+  positions(n_dof, 0.0),
+  initial_positions(n_dof, 0.0),
+  cart_position(n_dof, 0.0),
+  initial_cart_position(n_dof, 0.0)
 {
   // Parse message from robot
   TiXmlDocument bufferdoc;
@@ -103,6 +103,22 @@ RSIState::RSIState(std::string xml_doc) :
   ASPos_el->Attribute("A4", &initial_positions[3]);
   ASPos_el->Attribute("A5", &initial_positions[4]);
   ASPos_el->Attribute("A6", &initial_positions[5]);
+    // Extract axis specific actual position EXTERNOS
+    TiXmlElement* EIPos_el = rob->FirstChildElement("EIPos");
+    AIPos_el->Attribute("E1", &positions[6]);
+    AIPos_el->Attribute("E2", &positions[7]);/*
+    AIPos_el->Attribute("E3", &positions[8]);
+    AIPos_el->Attribute("E4", &positions[9]);
+    AIPos_el->Attribute("E5", &positions[10]);
+    AIPos_el->Attribute("E6", &positions[11]);*/
+    // Extract axis specific setpoint position EXTERNOS
+    TiXmlElement* ESPos_el = rob->FirstChildElement("ESPos");
+    ASPos_el->Attribute("E1", &initial_positions[6]);
+    ASPos_el->Attribute("E2", &initial_positions[7]);/*
+    ASPos_el->Attribute("E3", &initial_positions[8]);
+    ASPos_el->Attribute("E4", &initial_positions[9]);
+    ASPos_el->Attribute("E5", &initial_positions[10]);
+    ASPos_el->Attribute("E6", &initial_positions[11]);*/
   // Extract cartesian actual position
   TiXmlElement* RIst_el = rob->FirstChildElement("RIst");
   RIst_el->Attribute("X", &cart_position[0]);

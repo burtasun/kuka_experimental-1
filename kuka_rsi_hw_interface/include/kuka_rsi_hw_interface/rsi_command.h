@@ -49,7 +49,7 @@ class RSICommand
 {
 public:
   RSICommand();
-  RSICommand(std::vector<double> position_corrections, unsigned long long ipoc);
+  RSICommand(std::vector<double> position_corrections, unsigned long long ipoc, int n_dof);
   std::string xml_doc;
 };
 
@@ -58,7 +58,7 @@ RSICommand::RSICommand()
   // Intentionally empty
 }
 
-RSICommand::RSICommand(std::vector<double> joint_position_correction, unsigned long long ipoc)
+RSICommand::RSICommand(std::vector<double> joint_position_correction, unsigned long long ipoc, int n_dof)
 {
   TiXmlDocument doc;
   TiXmlElement* root = new TiXmlElement("Sen");
@@ -71,7 +71,15 @@ RSICommand::RSICommand(std::vector<double> joint_position_correction, unsigned l
   el->SetAttribute("A4", std::to_string(joint_position_correction[3]));
   el->SetAttribute("A5", std::to_string(joint_position_correction[4]));
   el->SetAttribute("A6", std::to_string(joint_position_correction[5]));
-
+  root->LinkEndChild(el);
+  el = new TiXmlElement("EK");
+  // Add string attribute
+  el->SetAttribute("E1", std::to_string(joint_position_correction[0]));
+  el->SetAttribute("E2", std::to_string(joint_position_correction[1]));/*
+  el->SetAttribute("E3", std::to_string(joint_position_correction[2]));
+  el->SetAttribute("E4", std::to_string(joint_position_correction[3]));
+  el->SetAttribute("E5", std::to_string(joint_position_correction[4]));
+  el->SetAttribute("E6", std::to_string(joint_position_correction[5]));*/
   root->LinkEndChild(el);
   el = new TiXmlElement("IPOC");
   el->LinkEndChild(new TiXmlText(std::to_string(ipoc)));
