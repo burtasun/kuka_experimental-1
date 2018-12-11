@@ -97,10 +97,10 @@ bool KukaHardwareInterface::read(const ros::Time time, const ros::Duration perio
   {
     return false;
   }
-  //ROS_INFO_STREAM_NAMED("hardware_interface", "\n\nBUFFER RECEPCION:\n" << in_buffer_);
+  ROS_INFO_STREAM_NAMED("hardware_interface", "\n\nBUFFER RECEPCION:\n" << in_buffer_);
   ros::Time aux = ros::Time::now();
   ros::Duration aux2 = aux-timestamp_;
-  ROS_INFO_STREAM_NAMED("hardware_interface", "TS:\t" << aux2);
+  //ROS_INFO_STREAM_NAMED("hardware_interface", "TS:\t" << aux2);
   timestamp_ = ros::Time::now();
 
   if (rt_rsi_pub_->trylock()){
