@@ -2,7 +2,9 @@
 <launch>
     <arg name="sim" default="true" />
 
-    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find kuka_kr30)/urdf/kr30.xacro'"/>
+    <!--<param name="robot_description" command="$(find xacro)/xacro inorder '$(find kuka_kr30)/urdf/kr30.xacro'"/>-->
+    <arg name="model" value="$(find urdf_ejes_ext)/urdf/robot_mesa.urdf"/>
+    <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
     
     <rosparam file="$(find kuka_rsi_hw_interface)/test/test_params_sim.yaml" command="load" if="$(arg sim)"/>
     <rosparam file="$(find kuka_rsi_hw_interface)/test/test_params.yaml" command="load" unless="$(arg sim)"/>

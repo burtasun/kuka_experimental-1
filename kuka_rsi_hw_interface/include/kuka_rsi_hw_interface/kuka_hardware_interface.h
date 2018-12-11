@@ -77,6 +77,7 @@ class KukaHardwareInterface : public hardware_interface::RobotHW
 
 private:
 
+  ros::Time timestamp_;//Debug rating / estabilidad
   // ROS node handle
   ros::NodeHandle nh_;
 

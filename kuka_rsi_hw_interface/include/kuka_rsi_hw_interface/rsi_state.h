@@ -105,16 +105,16 @@ RSIState::RSIState(std::string xml_doc, int n_dof) :
   ASPos_el->Attribute("A6", &initial_positions[5]);
     // Extract axis specific actual position EXTERNOS
     TiXmlElement* EIPos_el = rob->FirstChildElement("EIPos");
-    AIPos_el->Attribute("E1", &positions[6]);
-    AIPos_el->Attribute("E2", &positions[7]);/*
+    EIPos_el->Attribute("E1", &positions[6]);
+    EIPos_el->Attribute("E2", &positions[7]);/*
     AIPos_el->Attribute("E3", &positions[8]);
     AIPos_el->Attribute("E4", &positions[9]);
     AIPos_el->Attribute("E5", &positions[10]);
     AIPos_el->Attribute("E6", &positions[11]);*/
     // Extract axis specific setpoint position EXTERNOS
     TiXmlElement* ESPos_el = rob->FirstChildElement("ESPos");
-    ASPos_el->Attribute("E1", &initial_positions[6]);
-    ASPos_el->Attribute("E2", &initial_positions[7]);/*
+    ESPos_el->Attribute("E1", &initial_positions[6]);
+    ESPos_el->Attribute("E2", &initial_positions[7]);/*
     ASPos_el->Attribute("E3", &initial_positions[8]);
     ASPos_el->Attribute("E4", &initial_positions[9]);
     ASPos_el->Attribute("E5", &initial_positions[10]);
@@ -138,6 +138,9 @@ RSIState::RSIState(std::string xml_doc, int n_dof) :
   // Get the IPOC timestamp
   TiXmlElement* ipoc_el = rob->FirstChildElement("IPOC");
   ipoc = std::stoull(ipoc_el->FirstChild()->Value());
+
+  //ROS_INFO_STREAM_NAMED("hardware_interface", "\nEje E1 pos: " << positions[6] << "obj: " << initial_positions[6] << "\nEje E2: " << positions[7]<< "obj: " << initial_positions[7]);
+
 }
 
 } // namespace kuka_rsi_hw_interface

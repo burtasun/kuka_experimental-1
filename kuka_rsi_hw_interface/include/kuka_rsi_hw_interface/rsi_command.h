@@ -74,8 +74,8 @@ RSICommand::RSICommand(std::vector<double> joint_position_correction, unsigned l
   root->LinkEndChild(el);
   el = new TiXmlElement("EK");
   // Add string attribute
-  el->SetAttribute("E1", std::to_string(joint_position_correction[0]));
-  el->SetAttribute("E2", std::to_string(joint_position_correction[1]));/*
+  el->SetAttribute("E1", std::to_string(joint_position_correction[6]));
+  el->SetAttribute("E2", std::to_string(joint_position_correction[7]));/*
   el->SetAttribute("E3", std::to_string(joint_position_correction[2]));
   el->SetAttribute("E4", std::to_string(joint_position_correction[3]));
   el->SetAttribute("E5", std::to_string(joint_position_correction[4]));

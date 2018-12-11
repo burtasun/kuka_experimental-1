@@ -97,7 +97,11 @@ bool KukaHardwareInterface::read(const ros::Time time, const ros::Duration perio
   {
     return false;
   }
-  ROS_INFO_STREAM_NAMED("hardware_interface", "\n\nBUFFER RECEPCION:\n" << in_buffer_);
+  //ROS_INFO_STREAM_NAMED("hardware_interface", "\n\nBUFFER RECEPCION:\n" << in_buffer_);
+  ros::Time aux = ros::Time::now();
+  ros::Duration aux2 = aux-timestamp_;
+  ROS_INFO_STREAM_NAMED("hardware_interface", "TS:\t" << aux2);
+  timestamp_ = ros::Time::now();
 
   if (rt_rsi_pub_->trylock()){
     rt_rsi_pub_->msg_.data = in_buffer_;
@@ -118,13 +122,20 @@ bool KukaHardwareInterface::write(const ros::Time time, const ros::Duration peri
 {
   out_buffer_.resize(1024);
 
+  std::string debug_correct, debug_command_deg, debug_posini;
   for (std::size_t i = 0; i < n_dof_; ++i)
   {
     rsi_joint_position_corrections_[i] = (RAD2DEG * joint_position_command_[i]) - rsi_initial_joint_positions_[i];
+    /*debug_correct += std::to_string(i) + ": " + std::to_string(rsi_joint_position_corrections_[i]) + "    ";
+    debug_command_deg += std::to_string(i) + ": " + std::to_string(RAD2DEG * joint_position_command_[i]) + "    ";
+    debug_posini += std::to_string(i) + ": " + std::to_string(rsi_initial_joint_positions_[i]) + "    ";*/
   }
 
   out_buffer_ = RSICommand(rsi_joint_position_corrections_, ipoc_, n_dof_).xml_doc;
-  ROS_INFO_STREAM_NAMED("hardware_interface", "\n\nBUFFER ENVIO:\n" << out_buffer_);
+  /*ROS_INFO_STREAM_NAMED("hardware_interface", "\n\nPuntos Correcciones enviadas:\n" << debug_correct.c_str());
+  ROS_INFO_STREAM_NAMED("hardware_interface", "\n\nPuntos command:\n" << debug_command_deg.c_str());
+  ROS_INFO_STREAM_NAMED("hardware_interface", "\n\nPuntos actuales:\n" << debug_posini.c_str());
+  ROS_INFO_STREAM_NAMED("hardware_interface", "\n\nBUFFER ENVIO:\n" << out_buffer_);*/
   server_->send(out_buffer_);
 
   return true;
