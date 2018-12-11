@@ -60,7 +60,72 @@
     </rSIElement>
     <rSIElement name="ETHERNET1" objType="ETHERNET" objTypeID="64" maxInputs="64" maxOutputs="64">
       <rSIInPorts>
-        <rSIInPort name="In1" mandatory="false" />
+        <rSIInPort name="In1" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GEARTORQUE1/A1" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In2" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GEARTORQUE1/A2" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In3" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GEARTORQUE1/A3" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In4" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GEARTORQUE1/A4" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In5" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GEARTORQUE1/A5" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In6" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GEARTORQUE1/A6" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In7" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GEARTORQUEEXT1/E1" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In8" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GEARTORQUEEXT1/E2" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In9" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GEARTORQUEEXT1/E3" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In10" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GEARTORQUEEXT1/E4" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In11" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GEARTORQUEEXT1/E5" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In12" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GEARTORQUEEXT1/E6" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In13" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//AXISACT1/A1" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In14" mandatory="false" />
       </rSIInPorts>
       <rSIOutPorts>
         <rSIOutPort name="Out1" />
@@ -100,18 +165,18 @@
         <rSIOutPort name="E6" />
       </rSIOutPorts>
       <rSIParameters>
-        <rSIParameter name="MaxA1" value="90.0" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="1" />
-        <rSIParameter name="MaxA2" value="90.0" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="2" />
-        <rSIParameter name="MaxA3" value="90.0" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="3" />
-        <rSIParameter name="MaxA4" value="90.0" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="4" />
-        <rSIParameter name="MaxA5" value="90.0" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="5" />
-        <rSIParameter name="MaxA6" value="90.0" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="6" />
-        <rSIParameter name="MaxE1" value="6.0" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="7" />
-        <rSIParameter name="MaxE2" value="6.0" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="8" />
-        <rSIParameter name="MaxE3" value="6.0" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="9" />
-        <rSIParameter name="MaxE4" value="6.0" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="10" />
-        <rSIParameter name="MaxE5" value="6.0" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="11" />
-        <rSIParameter name="MaxE6" value="6.0" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="12" />
+        <rSIParameter name="MaxA1" value="360" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="1" />
+        <rSIParameter name="MaxA2" value="360" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="2" />
+        <rSIParameter name="MaxA3" value="360" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="3" />
+        <rSIParameter name="MaxA4" value="360" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="4" />
+        <rSIParameter name="MaxA5" value="360" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="5" />
+        <rSIParameter name="MaxA6" value="360" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="6" />
+        <rSIParameter name="MaxE1" value="360" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="7" />
+        <rSIParameter name="MaxE2" value="360" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="8" />
+        <rSIParameter name="MaxE3" value="360" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="9" />
+        <rSIParameter name="MaxE4" value="360" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="10" />
+        <rSIParameter name="MaxE5" value="360" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="11" />
+        <rSIParameter name="MaxE6" value="360" paramType="System.Double" minVal="0" maxVal="2147483647" isEnum="false" index="12" />
       </rSIParameters>
     </rSIElement>
     <rSIElement name="AXISCORREXT1" objType="AXISCORREXT" objTypeID="33" outputOffset="8" maxInputs="0" maxOutputs="0" inputOffset="7">
@@ -169,6 +234,77 @@
         <rSIParameter name="UpperLimE5" value="5" paramType="System.Double" minVal="-2147483648" maxVal="2147483647" isEnum="false" index="23" />
         <rSIParameter name="UpperLimE6" value="5" paramType="System.Double" minVal="-2147483648" maxVal="2147483647" isEnum="false" index="24" />
       </rSIParameters>
+    </rSIElement>
+    <rSIElement name="MONITOR1" objType="MONITOR" objTypeID="55" maxInputs="24" maxOutputs="0">
+      <rSIInPorts>
+        <rSIInPort name="In1">
+          <source>
+            <rSIOutPortMoniker name="//AXISACT1/A1" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In2" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//MOTORCURRENT1/A1" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In3" mandatory="false" />
+      </rSIInPorts>
+      <rSIParameters>
+        <rSIParameter name="Refresh" value="1" paramType="System.Int32" minVal="1" maxVal="2147483647" isEnum="false" index="1" />
+        <rSIParameter name="Timeout" value="50" paramType="System.Int32" minVal="0" maxVal="2147483647" isEnum="false" index="2" />
+        <rSIParameter name="ReqTimeZero" value="1" paramType="System.Int32" minVal="-2147483648" maxVal="2147483647" isEnum="false" index="3" />
+        <rSIParameter name="IP" value="192.168.1.2" paramType="System.IP" minVal="-2147483648" maxVal="2147483647" isEnum="false" isRuntime="false" index="1" />
+        <rSIParameter name="Channel" value="1" paramType="System.Int32" minVal="1" maxVal="8" isEnum="false" isRuntime="false" index="2" />
+      </rSIParameters>
+    </rSIElement>
+    <rSIElement name="GEARTORQUE1" objType="GEARTORQUE" objTypeID="46" maxInputs="0" maxOutputs="0">
+      <rSIOutPorts>
+        <rSIOutPort name="A1" />
+        <rSIOutPort name="A2" />
+        <rSIOutPort name="A3" />
+        <rSIOutPort name="A4" />
+        <rSIOutPort name="A5" />
+        <rSIOutPort name="A6" />
+      </rSIOutPorts>
+      <rSIParameters>
+        <rSIParameter name="Type" value="Set_LoadSide" paramType="KUKA.RSIVisual.RSI_GearTorqueType" minVal="-2147483648" maxVal="2147483647" isEnum="true" index="1" />
+      </rSIParameters>
+    </rSIElement>
+    <rSIElement name="GEARTORQUEEXT1" objType="GEARTORQUEEXT" objTypeID="46" outputOffset="7" maxInputs="0" maxOutputs="0">
+      <rSIOutPorts>
+        <rSIOutPort name="E1" />
+        <rSIOutPort name="E2" />
+        <rSIOutPort name="E3" />
+        <rSIOutPort name="E4" />
+        <rSIOutPort name="E5" />
+        <rSIOutPort name="E6" />
+      </rSIOutPorts>
+      <rSIParameters>
+        <rSIParameter name="Type" value="Set_LoadSide" paramType="KUKA.RSIVisual.RSI_GearTorqueType" minVal="-2147483648" maxVal="2147483647" isEnum="true" index="1" />
+      </rSIParameters>
+    </rSIElement>
+    <rSIElement name="AXISACT1" objType="AXISACT" objTypeID="32" maxInputs="0" maxOutputs="0">
+      <rSIOutPorts>
+        <rSIOutPort name="A1" />
+        <rSIOutPort name="A2" />
+        <rSIOutPort name="A3" />
+        <rSIOutPort name="A4" />
+        <rSIOutPort name="A5" />
+        <rSIOutPort name="A6" />
+      </rSIOutPorts>
+      <rSIParameters>
+        <rSIParameter name="Type" value="Measured" paramType="KUKA.RSIVisual.RSI_PosType" minVal="-2147483648" maxVal="2147483647" isEnum="true" index="1" />
+      </rSIParameters>
+    </rSIElement>
+    <rSIElement name="MOTORCURRENT1" objType="MOTORCURRENT" objTypeID="47" maxInputs="0" maxOutputs="0">
+      <rSIOutPorts>
+        <rSIOutPort name="A1" />
+        <rSIOutPort name="A2" />
+        <rSIOutPort name="A3" />
+        <rSIOutPort name="A4" />
+        <rSIOutPort name="A5" />
+        <rSIOutPort name="A6" />
+      </rSIOutPorts>
     </rSIElement>
   </rSIObjects>
 </rSIModel>

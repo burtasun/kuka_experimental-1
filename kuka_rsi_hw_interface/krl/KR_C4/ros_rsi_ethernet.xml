@@ -17,10 +17,26 @@
          <ELEMENT TAG="DEF_RIst" TYPE="DOUBLE" INDX="INTERNAL" />
          <ELEMENT TAG="DEF_RSol" TYPE="DOUBLE" INDX="INTERNAL" />
          <ELEMENT TAG="DEF_AIPos" TYPE="DOUBLE" INDX="INTERNAL" /><!--Posicion actual ejes internos-->
-		 <ELEMENT TAG="DEF_ASPos" TYPE="DOUBLE" INDX="INTERNAL" /><!--Posicion setpoint ejes internos-->
+         <ELEMENT TAG="DEF_ASPos" TYPE="DOUBLE" INDX="INTERNAL" /><!--Posicion setpoint ejes internos-->
          <ELEMENT TAG="DEF_EIPos" TYPE="DOUBLE" INDX="INTERNAL" /><!--Posicion actual ejes externos-->
          <ELEMENT TAG="DEF_ESPos" TYPE="DOUBLE" INDX="INTERNAL" /><!--Posicion setpoint ejes externos-->
-		 <ELEMENT TAG="DEF_Delay" TYPE="LONG" INDX="INTERNAL" />
+         <ELEMENT TAG="DEF_Delay" TYPE="LONG" INDX="INTERNAL" />
+         
+         <!--TORQUES-->
+         <ELEMENT TAG="Torque.a1" TYPE="BOOL" INDX="1" /> 
+         <ELEMENT TAG="Torque.a2" TYPE="BOOL" INDX="2" /> 
+         <ELEMENT TAG="Torque.a3" TYPE="BOOL" INDX="3" /> 
+         <ELEMENT TAG="Torque.a4" TYPE="BOOL" INDX="4" /> 
+         <ELEMENT TAG="Torque.a5" TYPE="BOOL" INDX="5" /> 
+         <ELEMENT TAG="Torque.a6" TYPE="BOOL" INDX="6" /> 
+         <ELEMENT TAG="Torque.e1" TYPE="BOOL" INDX="7" /> 
+         <ELEMENT TAG="Torque.e2" TYPE="BOOL" INDX="8" /> 
+         <ELEMENT TAG="Torque.e3" TYPE="BOOL" INDX="9" /> 
+         <ELEMENT TAG="Torque.e4" TYPE="BOOL" INDX="10" /> 
+         <ELEMENT TAG="Torque.e5" TYPE="BOOL" INDX="11" /> 
+         <ELEMENT TAG="Torque.e6" TYPE="BOOL" INDX="12" /> 
+         <ELEMENT TAG="Axisact1Borrar" TYPE="DOUBLE" INDX="13" /><!--ñapa debugeo monitor-->
+
       </ELEMENTS>
    </SEND>
    <RECEIVE>
