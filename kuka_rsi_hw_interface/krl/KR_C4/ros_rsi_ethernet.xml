@@ -1,6 +1,6 @@
 <ROOT>
    <CONFIG>
-      <IP_NUMBER>192.168.120.5</IP_NUMBER>   <!-- IP-number of the external socket -->
+      <IP_NUMBER>192.168.120.125</IP_NUMBER>   <!-- IP-number of the external socket -->
       <PORT>49152</PORT>                   <!-- Port-number of the external socket -->      
       <SENTYPE>ImFree</SENTYPE>        <!-- The name of your system send in <Sen Type="" > -->     
       <ONLYSEND>FALSE</ONLYSEND>       <!-- TRUE means the client don't expect answers. Do not send anything to robot -->
@@ -21,13 +21,17 @@
          <ELEMENT TAG="DEF_EIPos" TYPE="DOUBLE" INDX="INTERNAL" /><!--Posicion actual ejes externos-->
          <ELEMENT TAG="DEF_ESPos" TYPE="DOUBLE" INDX="INTERNAL" /><!--Posicion setpoint ejes externos-->
          <ELEMENT TAG="DEF_Delay" TYPE="LONG" INDX="INTERNAL" />
+
+         <ELEMENT TAG="DEF_MACur" TYPE="DOUBLE" INDX="INTERNAL" />
+
+         
          
          <!--TORQUES-->
-         <ELEMENT TAG="Torque.a1" TYPE="BOOL" INDX="1" /> 
-         <ELEMENT TAG="Torque.a2" TYPE="BOOL" INDX="2" /> 
-         <ELEMENT TAG="Torque.a3" TYPE="BOOL" INDX="3" /> 
-         <ELEMENT TAG="Torque.a4" TYPE="BOOL" INDX="4" /> 
-         <ELEMENT TAG="Torque.a5" TYPE="BOOL" INDX="5" /> 
+         <!--<ELEMENT TAG="Torque.a1" TYPE="BOOL" INDX="1" /> 
+         <ELEMENT TAG="Torque.a1SetLoad" TYPE="BOOL" INDX="2" /> 
+         <ELEMENT TAG="Torque.a1FF" TYPE="BOOL" INDX="3" /> 
+         <ELEMENT TAG="Torque.a1Motor" TYPE="BOOL" INDX="4" /> 
+         <ELEMENT TAG="Torque.a1Current" TYPE="BOOL" INDX="5" /> 
          <ELEMENT TAG="Torque.a6" TYPE="BOOL" INDX="6" /> 
          <ELEMENT TAG="Torque.e1" TYPE="BOOL" INDX="7" /> 
          <ELEMENT TAG="Torque.e2" TYPE="BOOL" INDX="8" /> 
@@ -35,7 +39,7 @@
          <ELEMENT TAG="Torque.e4" TYPE="BOOL" INDX="10" /> 
          <ELEMENT TAG="Torque.e5" TYPE="BOOL" INDX="11" /> 
          <ELEMENT TAG="Torque.e6" TYPE="BOOL" INDX="12" /> 
-         <ELEMENT TAG="Axisact1Borrar" TYPE="DOUBLE" INDX="13" /><!--ñapa debugeo monitor-->
+         <ELEMENT TAG="Axisact1Borrar" TYPE="DOUBLE" INDX="13" /><-->
 
       </ELEMENTS>
    </SEND>

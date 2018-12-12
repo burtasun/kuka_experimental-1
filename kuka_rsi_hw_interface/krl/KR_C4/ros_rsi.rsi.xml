@@ -25,21 +25,6 @@
     </Parameters>
   </RSIObject>
   <RSIObject ObjType="ETHERNET" ObjTypeID="64" ObjID="ETHERNET1">
-    <Inputs>
-      <Input InIdx="1" OutObjID="GEARTORQUE1" OutIdx="1" />
-      <Input InIdx="2" OutObjID="GEARTORQUE1" OutIdx="2" />
-      <Input InIdx="3" OutObjID="GEARTORQUE1" OutIdx="3" />
-      <Input InIdx="4" OutObjID="GEARTORQUE1" OutIdx="4" />
-      <Input InIdx="5" OutObjID="GEARTORQUE1" OutIdx="5" />
-      <Input InIdx="6" OutObjID="GEARTORQUE1" OutIdx="6" />
-      <Input InIdx="7" OutObjID="GEARTORQUEEXT1" OutIdx="7" />
-      <Input InIdx="8" OutObjID="GEARTORQUEEXT1" OutIdx="8" />
-      <Input InIdx="9" OutObjID="GEARTORQUEEXT1" OutIdx="9" />
-      <Input InIdx="10" OutObjID="GEARTORQUEEXT1" OutIdx="10" />
-      <Input InIdx="11" OutObjID="GEARTORQUEEXT1" OutIdx="11" />
-      <Input InIdx="12" OutObjID="GEARTORQUEEXT1" OutIdx="12" />
-      <Input InIdx="13" OutObjID="AXISACT1" OutIdx="1" />
-    </Inputs>
     <Parameters>
       <Parameter Name="ConfigFile" ParamID="1" ParamValue="ros_rsi_ethernet.xml" IsRuntime="false" />
       <Parameter Name="Timeout" ParamID="1" ParamValue="100" />
@@ -87,33 +72,5 @@
       <Parameter Name="UpperLimE6" ParamID="24" ParamValue="5" />
     </Parameters>
   </RSIObject>
-  <RSIObject ObjType="MONITOR" ObjTypeID="55" ObjID="MONITOR1">
-    <Inputs>
-      <Input InIdx="1" OutObjID="AXISACT1" OutIdx="1" />
-      <Input InIdx="2" OutObjID="MOTORCURRENT1" OutIdx="1" />
-    </Inputs>
-    <Parameters>
-      <Parameter Name="Refresh" ParamID="1" ParamValue="1" />
-      <Parameter Name="Timeout" ParamID="2" ParamValue="50" />
-      <Parameter Name="ReqTimeZero" ParamID="3" ParamValue="1" />
-      <Parameter Name="IP" ParamID="1" ParamValue="192.168.1.2" IsRuntime="false" />
-      <Parameter Name="Channel" ParamID="2" ParamValue="1" IsRuntime="false" />
-    </Parameters>
-  </RSIObject>
-  <RSIObject ObjType="GEARTORQUE" ObjTypeID="46" ObjID="GEARTORQUE1">
-    <Parameters>
-      <Parameter Name="Type" ParamID="1" ParamValue="0" />
-    </Parameters>
-  </RSIObject>
-  <RSIObject ObjType="GEARTORQUEEXT" ObjTypeID="46" ObjID="GEARTORQUEEXT1">
-    <Parameters>
-      <Parameter Name="Type" ParamID="1" ParamValue="0" />
-    </Parameters>
-  </RSIObject>
-  <RSIObject ObjType="AXISACT" ObjTypeID="32" ObjID="AXISACT1">
-    <Parameters>
-      <Parameter Name="Type" ParamID="1" ParamValue="0" />
-    </Parameters>
-  </RSIObject>
-  <RSIObject ObjType="MOTORCURRENT" ObjTypeID="47" ObjID="MOTORCURRENT1" />
+  <RSIObject ObjType="MOTORCURRENT" ObjTypeID="47" ObjID="" />
 </RSIObjects>
