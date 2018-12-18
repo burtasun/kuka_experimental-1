@@ -47,6 +47,10 @@ int main(int argc, char** argv)
   kuka_eki_hw_interface::KukaEkiHardwareInterface hardware_interface;
   hardware_interface.init();
 
+  //LOGGING
+  if (hardware_interface.fich_logging_.is_open())
+    ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface_node", "Se ha abierto el fichero de logging");
+
   // Set up timers
   ros::Time timestamp;
   ros::Duration period;
@@ -54,7 +58,7 @@ int main(int argc, char** argv)
   auto stopwatch_now = stopwatch_last;
 
   controller_manager::ControllerManager controller_manager(&hardware_interface, nh);
-
+  ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface_node", "Inicializacion hw interface ok");
   hardware_interface.start();
 
   // Get current time and elapsed time since last read
@@ -63,6 +67,7 @@ int main(int argc, char** argv)
   period.fromSec(std::chrono::duration_cast<std::chrono::duration<double>>(stopwatch_now - stopwatch_last).count());
   stopwatch_last = stopwatch_now;
 
+  ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface_node", "Inicializacion hw interface ok2");
   while (ros::ok())
   {
     // Receive current state from robot
@@ -79,6 +84,12 @@ int main(int argc, char** argv)
 
     // Send new setpoint to robot
     hardware_interface.write(timestamp, period);
+  }
+
+  //LOGGING
+  if (hardware_interface.fich_logging_.is_open()){
+    hardware_interface.fich_logging_.close();
+    ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface_node", "Fichero de logging cerrado");
   }
 
   spinner.stop();

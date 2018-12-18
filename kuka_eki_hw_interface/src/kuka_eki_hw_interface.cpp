@@ -41,6 +41,9 @@
 #include <tinyxml.h>
 
 #include <kuka_eki_hw_interface/kuka_eki_hw_interface.h>
+//Data logging
+#include <iostream>
+#include <fstream>
 
 
 namespace kuka_eki_hw_interface
@@ -53,7 +56,13 @@ KukaEkiHardwareInterface::KukaEkiHardwareInterface() : joint_position_(n_dof_, 0
 }
 
 
-KukaEkiHardwareInterface::~KukaEkiHardwareInterface() {}
+KukaEkiHardwareInterface::~KukaEkiHardwareInterface() {
+  /*//LOGGING
+  if (fich_logging_.is_open()){
+    fich_logging_.close();
+    ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", "Fichero de logging cerrado");
+  }*/
+}
 
 
 void KukaEkiHardwareInterface::eki_check_read_state_deadline()
@@ -83,6 +92,10 @@ bool KukaEkiHardwareInterface::eki_read_state(std::vector<double> &joint_positio
                                               std::vector<double> &joint_effort,
                                               int &cmd_buff_len)
 {
+
+  //logging corrientes
+  std::vector<double> joint_current(n_dof_, 0.0);
+
   static boost::array<char, 2048> in_buffer;
 
   // Read socket buffer (with timeout)
@@ -108,13 +121,13 @@ bool KukaEkiHardwareInterface::eki_read_state(std::vector<double> &joint_positio
   xml_in.Parse(in_buffer.data());
 
   
-  /*TiXmlPrinter printer;
+  TiXmlPrinter printer;
   printer.SetIndent( "    " );
   xml_in.Accept( &printer );
   std::string xmltext = printer.CStr();
   ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", "El buffer de entrada es: ");
   ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", xmltext);
-  */
+  
 
 
 
@@ -126,6 +139,7 @@ bool KukaEkiHardwareInterface::eki_read_state(std::vector<double> &joint_positio
   TiXmlElement* pos = robot_state->FirstChildElement("Pos");
   TiXmlElement* vel = robot_state->FirstChildElement("Vel");
   TiXmlElement* eff = robot_state->FirstChildElement("Eff");
+  TiXmlElement* curr = robot_state->FirstChildElement("Curr");//Corrientes de ejes  
   TiXmlElement* robot_command = robot_state->FirstChildElement("RobotCommand");
   if (!pos || !vel || !eff || !robot_command)
     return false;
@@ -134,6 +148,7 @@ bool KukaEkiHardwareInterface::eki_read_state(std::vector<double> &joint_positio
   double joint_pos;  // [deg]
   double joint_vel;  // [%max]
   double joint_eff;  // [Nm]
+  double joint_curr; //corrientes
   //char axis_name[] = "A1";  //ÑAPA TOTAL DE ROS
   
 
@@ -154,13 +169,21 @@ bool KukaEkiHardwareInterface::eki_read_state(std::vector<double> &joint_positio
     joint_velocity[i] = joint_vel;
     eff->Attribute(NombreEjesKuka_[i], &joint_eff);
     joint_effort[i] = joint_eff;
-  
+
+    //Corrientes
+    curr->Attribute(NombreEjesKuka_[i], &joint_curr);
+    joint_current[i] = joint_curr;
+
+    //logging
+    fich_logging_ << i << "\t" << joint_pos << "\t" << joint_vel << "\t" << joint_eff << "\t" << joint_curr << "\n";
+    fich_logging_.flush();
     /*ValoresEjes += "    ";
     ValoresEjes += NombreEjesKuka_[i];
     ValoresEjes += " ";
     ValoresEjes += std::to_string(joint_position[i]);*/
   }
   //ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", ValoresEjes);
+
 
 
   // Extract number of command elements buffered on robot
@@ -196,8 +219,8 @@ bool KukaEkiHardwareInterface::eki_write_command(const std::vector<double> &join
   printerDebug.SetIndent( "    " );
   xml_out.Accept( &printerDebug );
   std::string xmltext = printerDebug.CStr();
-  ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", "El buffer de salida  es: ");
-  ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", xmltext);
+  /*ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", "El buffer de salida  es: ");
+  ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", xmltext);*/
   
 
   size_t len = eki_server_socket_.send_to(boost::asio::buffer(xml_printer.CStr(), xml_printer.Size()),
@@ -209,6 +232,22 @@ bool KukaEkiHardwareInterface::eki_write_command(const std::vector<double> &join
 
 void KukaEkiHardwareInterface::init()
 {
+  //LOGGING
+  std::time_t t = std::time(0);
+  std::tm* now = std::localtime(&t);  
+  std::string fichstr = "/home/benat/Downloads/borrar/logging_eki_" + std::to_string(now->tm_year + 1900) + '-' + std::to_string(now->tm_mon + 1) + '-' + std::to_string(now->tm_mday) + '-' + std::to_string(now->tm_hour) + '-' + std::to_string(now->tm_min) + '-' + std::to_string(now->  tm_sec) + ".tsv";
+  fich_logging_.open(fichstr, std::fstream::in | std::fstream::out | std::fstream::trunc);
+  if (fich_logging_.is_open())
+  {
+    fich_logging_ << "logging EKI\neje\tpos\tvel\ttor\tcurr\n";
+    ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", "Se ha escrito en el fichero");
+    fich_logging_.flush();//fich_logging_.close();
+  }
+  else
+    ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", "NO se ha escrito en el fichero");
+
+
+
   // Get controller joint names from parameter server
   if (!nh_.getParam("controller_joint_names", joint_names_))
   {
