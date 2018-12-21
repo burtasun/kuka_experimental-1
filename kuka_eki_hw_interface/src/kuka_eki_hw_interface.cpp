@@ -175,7 +175,11 @@ bool KukaEkiHardwareInterface::eki_read_state(std::vector<double> &joint_positio
     joint_current[i] = joint_curr;
 
     //logging
-    fich_logging_ << i << "\t" << joint_pos << "\t" << joint_vel << "\t" << joint_eff << "\t" << joint_curr << "\n";
+    ros::Time aux = ros::Time::now();
+    ros::Duration aux2 = aux-timestamp_;
+    //ROS_INFO_STREAM_NAMED("hardware_interface", "TS:\t" << aux2);
+    timestamp_ = ros::Time::now();
+    fich_logging_ << std::to_string(i+1) << "\t" << aux2 << "\t" << joint_pos << "\t" << joint_vel << "\t" << joint_eff << "\t" << joint_curr << "\n";
     fich_logging_.flush();
     /*ValoresEjes += "    ";
     ValoresEjes += NombreEjesKuka_[i];
@@ -239,7 +243,7 @@ void KukaEkiHardwareInterface::init()
   fich_logging_.open(fichstr, std::fstream::in | std::fstream::out | std::fstream::trunc);
   if (fich_logging_.is_open())
   {
-    fich_logging_ << "logging EKI\neje\tpos\tvel\ttor\tcurr\n";
+    fich_logging_ << "logging EKI\neje\ttiempo\tpos\tvel\ttor\tcurr\n";
     ROS_INFO_STREAM_NAMED("kuka_eki_hw_interface", "Se ha escrito en el fichero");
     fich_logging_.flush();//fich_logging_.close();
   }

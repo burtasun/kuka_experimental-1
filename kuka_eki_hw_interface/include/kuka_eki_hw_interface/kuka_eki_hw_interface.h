@@ -58,6 +58,7 @@ class KukaEkiHardwareInterface : public hardware_interface::RobotHW
 {
 private:
   const std::string NombreEjesKuka_[12]={"A1","A2","A3","A4","A5","A6","E1","E2","E3","E4","E5","E6"}; //Suple el iterador de ejes de read y write definido por AxisName
+  ros::Time timestamp_;//Debug rating / estabilidad
 
   ros::NodeHandle nh_;
 
