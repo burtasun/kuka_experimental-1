@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: kuka_kr3_support
+    relative_path: urdf/kr3r540.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/kuka_kr3r540.srdf
+  CONFIG:
+    author_name: BenatUrtasun
+    author_email: burtasun@lortek.es
+    generated_timestamp: 1554743706
