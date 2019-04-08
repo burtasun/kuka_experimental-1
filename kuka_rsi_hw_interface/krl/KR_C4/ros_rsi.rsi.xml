@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <RSIObjects xsi:noNamespaceSchemaLocation="/Roboter/Config/System/Common/Schemes/RSIContext.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <RSIObject ObjType="AXISCORR" ObjTypeID="33" ObjID="AXISCORR1">
     <Inputs>
@@ -10,18 +10,18 @@
       <Input InIdx="6" OutObjID="ETHERNET1" OutIdx="6" />
     </Inputs>
     <Parameters>
-      <Parameter Name="LowerLimA1" ParamID="1" ParamValue="-90.0" />
-      <Parameter Name="LowerLimA2" ParamID="2" ParamValue="-90.0" />
-      <Parameter Name="LowerLimA3" ParamID="3" ParamValue="-90.0" />
-      <Parameter Name="LowerLimA4" ParamID="4" ParamValue="-90.0" />
-      <Parameter Name="LowerLimA5" ParamID="5" ParamValue="-90.0" />
-      <Parameter Name="LowerLimA6" ParamID="6" ParamValue="-90.0" />
-      <Parameter Name="UpperLimA1" ParamID="13" ParamValue="90.0" />
-      <Parameter Name="UpperLimA2" ParamID="14" ParamValue="90.0" />
-      <Parameter Name="UpperLimA3" ParamID="15" ParamValue="90.0" />
-      <Parameter Name="UpperLimA4" ParamID="16" ParamValue="90.0" />
-      <Parameter Name="UpperLimA5" ParamID="17" ParamValue="90.0" />
-      <Parameter Name="UpperLimA6" ParamID="18" ParamValue="90.0" />
+      <Parameter Name="LowerLimA1" ParamID="1" ParamValue="-185" />
+      <Parameter Name="LowerLimA2" ParamID="2" ParamValue="-135" />
+      <Parameter Name="LowerLimA3" ParamID="3" ParamValue="-120" />
+      <Parameter Name="LowerLimA4" ParamID="4" ParamValue="-350" />
+      <Parameter Name="LowerLimA5" ParamID="5" ParamValue="-119" />
+      <Parameter Name="LowerLimA6" ParamID="6" ParamValue="-350" />
+      <Parameter Name="UpperLimA1" ParamID="13" ParamValue="185" />
+      <Parameter Name="UpperLimA2" ParamID="14" ParamValue="35" />
+      <Parameter Name="UpperLimA3" ParamID="15" ParamValue="158" />
+      <Parameter Name="UpperLimA4" ParamID="16" ParamValue="350" />
+      <Parameter Name="UpperLimA5" ParamID="17" ParamValue="119" />
+      <Parameter Name="UpperLimA6" ParamID="18" ParamValue="350" />
     </Parameters>
   </RSIObject>
   <RSIObject ObjType="ETHERNET" ObjTypeID="64" ObjID="ETHERNET1">

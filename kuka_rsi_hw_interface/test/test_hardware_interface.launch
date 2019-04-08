@@ -2,8 +2,11 @@
 <launch>
     <arg name="sim" default="true" />
 
+    <param name="robot_description" command="$(find xacro)/xacro.py '$(find kuka_kr3_support)/urdf/kr3r540.xacro'"/>
     <rosparam file="$(find kuka_rsi_hw_interface)/test/test_params_sim.yaml" command="load" if="$(arg sim)"/>
     <rosparam file="$(find kuka_rsi_hw_interface)/test/test_params.yaml" command="load" unless="$(arg sim)"/>
+
+    
 
     <!-- Start node without FT sensor -->
     <node name="kuka_hardware_interface" pkg="kuka_rsi_hw_interface"
