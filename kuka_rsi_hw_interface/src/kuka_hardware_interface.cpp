@@ -99,7 +99,11 @@ bool KukaHardwareInterface::read(const ros::Time time, const ros::Duration perio
   }
 
   /////////////////visualizacion socket entrada
-  ROS_DEBUG_STREAM("\n\n" << in_buffer_<<"\n\n");
+  /*ROS_INFO_STREAM_NAMED("hardware_interface", "\n\n\nBUFFER RECEPCION:\n" << in_buffer_);
+  ros::Time aux = ros::Time::now();
+  ros::Duration aux2 = aux-timestamp_;
+  ROS_INFO_STREAM_NAMED("hardware_interface", "TS:\t" << aux2<<"\n\n\n");
+  timestamp_ = ros::Time::now();*/
 
 
   if (rt_rsi_pub_->trylock()){

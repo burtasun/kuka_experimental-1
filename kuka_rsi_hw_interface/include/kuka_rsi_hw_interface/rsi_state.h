@@ -70,6 +70,8 @@ public:
   std::vector<double> cart_position;
   // RSol
   std::vector<double> initial_cart_position;
+  // MACur
+  std::vector<double> currents;
   // IPOC
   unsigned long long ipoc;
 
@@ -80,7 +82,9 @@ RSIState::RSIState(std::string xml_doc) :
   positions(6, 0.0),
   initial_positions(6, 0.0),
   cart_position(6, 0.0),
-  initial_cart_position(6, 0.0)
+  initial_cart_position(6, 0.0),
+  currents(6, 0.0)
+
 {
   // Parse message from robot
   TiXmlDocument bufferdoc;
@@ -119,6 +123,21 @@ RSIState::RSIState(std::string xml_doc) :
   RSol_el->Attribute("A", &initial_cart_position[3]);
   RSol_el->Attribute("B", &initial_cart_position[4]);
   RSol_el->Attribute("C", &initial_cart_position[5]);
+  // Extract currents
+  TiXmlElement* MACur_el = rob->FirstChildElement("MACur");
+  MACur_el->Attribute("A1", &currents[0]);
+  MACur_el->Attribute("A2", &currents[1]);
+  MACur_el->Attribute("A3", &currents[2]);
+  MACur_el->Attribute("A4", &currents[3]);
+  MACur_el->Attribute("A5", &currents[4]);
+  MACur_el->Attribute("A6", &currents[5]);
+  ROS_INFO_STREAM_NAMED("hardware_interface", "@MACur;" 
+    <<currents[0] <<';'
+    <<currents[1] <<';'
+    <<currents[2] <<';'
+    <<currents[3] <<';'
+    <<currents[4] <<';'
+    <<currents[5] );
   // Get the IPOC timestamp
   TiXmlElement* ipoc_el = rob->FirstChildElement("IPOC");
   ipoc = std::stoull(ipoc_el->FirstChild()->Value());
