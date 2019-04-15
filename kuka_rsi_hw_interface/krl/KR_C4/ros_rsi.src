@@ -74,8 +74,14 @@ IF (ret <> RSIOK) THEN
   HALT
 ENDIF
 
+
+;Limites de traslacion y rotacion 
+ret = RSI_SETPUBLICPAR(CONTID,"GLOBAL","MaxTrans",10000)
+ret = RSI_SETPUBLICPAR(CONTID,"GLOBAL","MaxRotAngle",720)
+
+
 ; Start RSI execution
-ret = RSI_ON(#ABSOLUTE)
+ret = RSI_ON(#ABSOLUTE,#IPO);ipo 12ms / nada o ipo_fast 4ms
 IF (ret <> RSIOK) THEN
   HALT
 ENDIF

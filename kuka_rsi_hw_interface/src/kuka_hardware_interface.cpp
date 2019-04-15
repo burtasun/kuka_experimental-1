@@ -98,6 +98,10 @@ bool KukaHardwareInterface::read(const ros::Time time, const ros::Duration perio
     return false;
   }
 
+  /////////////////visualizacion socket entrada
+  ROS_DEBUG_STREAM("\n\n" << in_buffer_<<"\n\n");
+
+
   if (rt_rsi_pub_->trylock()){
     rt_rsi_pub_->msg_.data = in_buffer_;
     rt_rsi_pub_->unlockAndPublish();
