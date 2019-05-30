@@ -77,6 +77,10 @@ class KukaHardwareInterface : public hardware_interface::RobotHW
 
 private:
   ros::Time timestamp_;//Debug rating / estabilidad
+  int nreads=0;
+  const int maxnreadsfile=5000//roughly equivalent to 60s in 12ms mode    
+  std::ofstream ofs;//data-logging stream
+
 
   // ROS node handle
   ros::NodeHandle nh_;

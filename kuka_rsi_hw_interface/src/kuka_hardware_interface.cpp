@@ -97,7 +97,8 @@ bool KukaHardwareInterface::read(const ros::Time time, const ros::Duration perio
   {
     return false;
   }
-
+  this.nreads++;//confirmed reading
+  ros::Time tmstmp = ros::Time::now();
   /////////////////visualizacion socket entrada
   /*ROS_INFO_STREAM_NAMED("hardware_interface", "\n\n\nBUFFER RECEPCION:\n" << in_buffer_);
   ros::Time aux = ros::Time::now();
@@ -116,6 +117,31 @@ bool KukaHardwareInterface::read(const ros::Time time, const ros::Duration perio
   {
     joint_position_[i] = DEG2RAD * rsi_state_.positions[i];
   }
+  
+  //Datalogging
+  if(this.nreads>maxnreadsfile){//time to close the stream and create a new file!!!
+	  try{
+		this.ofs.close();
+	  }catch(Exception e){;}
+  }
+  if(!this.ofs.is_open()){
+	  std::string FileName = "DataLogging_" + ros::Time::now()+".txt";
+	  ofs.open (FileName, std::ofstream::out | std::ofstream::trunc);
+	  if(!ofs.is_open()){
+		  ROS_ERROR_STREAM_NAMED("hardware_interface","Error while opening the datalogging stream!\nCouldn't create file: " << FileName);
+		  return false;
+	  }
+  }
+  ofs<<tmstmp<<"\tJointPosition\t";
+  for (std::size_t i = 0; i < n_dof_; ++i){
+	ofs<<rsi_state_.positions[i]<<"\t";
+  }
+  ofs<<"\n"<<tmstmp<<"\tCurrents\t";
+  for (std::size_t i = 0; i < n_dof_; ++i){
+	ofs<<rsi_state_.currents[i]<<"\t";
+  }
+  ofs<<"\n"; 
+  
   ipoc_ = rsi_state_.ipoc;
 
   return true;
